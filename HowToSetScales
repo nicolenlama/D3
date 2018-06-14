@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>JS Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
+    </head>
+    <body>
+      
+      <script> /* loading csv files 
+        d3.csv("data.csv", type, function(myArrayOfObjects){
+          myArrayOfObjects.forEach(function(d){
+              console.log(d.x + ", " + d.y);
+            });
+        });
+
+        function type(d){
+          d.x = parseFloat(d.x); /*or = +d.x 
+          d.y = parseFloat(d.y);
+          return d;
+        }  */
+         /*
+        var scale = d3.scale.linear();
+        
+        scale.domain([0, 1]); // Data space
+        scale.range([0, 100]); // Pixel space
+        */
+        /* you can also method scale, and it looks
+        like this
+          var scale = d3.scale.linear()
+              .domain([0,1])
+              .range([0,100]); 
+         Note that the semi colon is used at the
+         very end of the JS statement. These are
+         also called gettr settrs */ 
+        
+        var scale = d3.scale.ordinal()
+          .domain(["A", "B", "C"])
+          .range(["Apple", "Banana", "Coconut"])
+        /*.rangePoints([0 , 100]); will adjust your
+        scale to numbers depending on how many elements
+        are in your domain. If you want to round any
+        awkward decimals resulting from this, use
+        .rangeRoundPoints()*/ 
+        
+        console.log(scale("A")); //prints Apple
+        
+        
+        
+        
+      </script> 
+      
+      
+      
+      </body>
+  </html>
