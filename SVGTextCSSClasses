@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SVG+CSS Example</title>
+    <link href='http://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+    <style> /* This is css code */
+      
+      
+      .a {
+        font-size: 2em;
+        font-family: 'Poiret One', cursive;
+      }
+      
+      .b {
+        font-size: 2em;
+        fill: blue;
+      }
+      
+      .c {
+        font-size: 20em;
+        fill: red;
+        stroke: black;
+        stroke-width: 10px
+        
+      }
+      
+      </style>
+  </head>
+  <body>
+    
+    <svg width="300" height="300">
+    <g transform="translate(0,80)">
+    <text class="a" x="70" y="60"> Hello SVG Text!</text>
+    <text class="b" x="150" y="150"> T!</text>
+    <text class="c" x="0" y="180"> C </text>
+      </g>
+      </svg>
+
+  </body>
+</html>
