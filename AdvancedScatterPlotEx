@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Example</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    
+    <style>
+      circle{
+        fill: blue;
+      }
+      
+      .specialCircles{
+        fill: none;
+        stroke: blue;
+        stroke-width: 2px
+      }
+      
+    </style>
+    </head>
+    <body>
+      
+      <script> 
+         
+
+        
+       d3.csv("iris.csv", type, function(data){
+         var min = d3.min(data, function (d){return d.sepal_length; });
+         var max=  d3.max(data, function (d){return d.sepal_length;  });
+         console.log([min, max]);
+         //or alternatively use extent to find min and max in one function call
+         //var extent = d3.extent(data, function (d){return d.sepal_length; });
+         //console.log(extent);
+          });
+        
+        //
+        //Let's make the scatter plot!!!
+        
+        var outerWidth = 300;
+        var outerHeight = 250;
+        
+        var marginLeft = 30;
+        var marginTop = 30;
+        var marginRight = 30;
+        var marginBottom = 30;
+        
+        //the better convention is to make margin into an object
+        
+        var margin = { Left: 30, Top: 30, Right: 30, Bottom: 30};
+        
+        var innerWidth =  outerWidth - margin.Left - margin.Right;
+        var innerHeight = outerHeight - margin.Top - margin.Bottom;
+        var circleRadius = 5;
+        var rMin = 2;
+        var rMax = 10; //r=radius
+        var colorCol = "species" //now we can seperate by color too!?!?!
+        var xCol = "sepal_length";
+        var yCol = "petal_length";
+        var rCol = "sepal_width"; //add extra dimension to data. width of circles 
+                                  //represent sepal width
+        
+        
+        var svg = d3.select("body").append("svg")
+        .attr("width", outerWidth)
+        .attr("height", outerHeight);
+        
+        var g = svg.append("g")
+          .attr("transform", "translate(" + margin.Left + "," + margin.Top + ")"); //helps position plot so it's not getting cut off. 
+        
+        var colorScale = d3.scale.category10(); //ordinal scale containing colors
+        var xScale = d3.scale.linear().range([0, outerWidth]);
+        var yScale = d3.scale.linear().range([outerHeight, 0]); //invert so 0 position is bottom left corner
+        var rScale = d3.scale.linear().range([rMin, rMax]); //use sqrt or log scale too 
+        
+        function render(data){
+          //don't need domain for color scale because magic!
+          xScale.domain(d3.extent(data, function (d){ return d[xCol]; }));
+          yScale.domain(d3.extent(data, function (d){ return d[yCol]; }));
+          rScale.domain(d3.extent(data, function (d){ return d[rCol]; }));
+          
+          var circles = svg.selectAll("circle").data(data);
+          circles.enter().append("circle").attr("r", circleRadius);
+          circles
+          .attr("stroke", function(d){ return colorScale(d[colorCol]); })
+          .attr("cx", function (d){ return xScale(d[xCol]); })
+          .attr("cy", function (d){ return yScale(d[yCol]); })
+          .attr("r", function (d){ return rScale(d[rCol]); });
+          
+          circles.exit().remove();
+        }
+        
+        //notice how data specific things are at the bottom, while configurable
+        //code is at the top. 
+      function type(d){
+        d.sepal_length = +d.sepal_length; //parsing step
+        d.sepal_width  = +d.sepal_width;
+        d.petal_length = +d.petal_length;
+        d.petal_width  = +d.petal_width;
+        return d;
+      }
+        
+        d3.csv("iris.csv", type, render);
+        
+      </script> 
+      
+      
+      
+      </body>
+  </html>
